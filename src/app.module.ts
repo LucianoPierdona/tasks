@@ -5,6 +5,8 @@ import { join } from 'path';
 import { ConfigModule } from './config/config.module';
 import { ConfigService } from './config/config.service';
 import { TaskModule } from './task/task.module';
+import { AuthModule } from './auth/auth.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -33,6 +35,8 @@ import { TaskModule } from './task/task.module';
       }),
       inject: [ConfigService],
     }),
+    AuthModule,
+    UserModule,
   ],
   controllers: [],
   providers: [],

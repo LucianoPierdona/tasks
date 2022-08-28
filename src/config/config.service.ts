@@ -40,6 +40,7 @@ export class ConfigService {
       DB_CONNECTION_USERNAME: Joi.string().required(),
       DB_CONNECTION_PASSWORD: Joi.string().required(),
       DB_CONNECTION_DATABASE: Joi.string().required(),
+      JWT_SECRET: Joi.string().required(),
     };
 
     const envVarsSchema: Joi.ObjectSchema = Joi.object(schema);
