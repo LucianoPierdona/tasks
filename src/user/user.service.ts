@@ -1,21 +1,45 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, UnprocessableEntityException } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { PinoLogger } from 'nestjs-pino';
+import { FindOneOptions, Repository } from 'typeorm';
+import { CreateUserReqDto } from './dto/create-user-req.dto';
+import { User } from './user.entity';
 
 @Injectable()
 export class UserService {
-  private readonly users = [
-    {
-      id: 1,
-      username: 'john',
-      password: 'changeme',
-    },
-    {
-      id: 2,
-      username: 'maria',
-      password: 'guess',
-    },
-  ];
+  constructor(
+    private readonly logger: PinoLogger,
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>,
+  ) {}
 
-  async findOne(username: string): Promise<any | undefined> {
-    return this.users.find((user) => user.username === username);
+  async findOne(options: FindOneOptions<User>): Promise<User | undefined> {
+    return this.userRepository.findOne(options);
+  }
+
+  async create({
+    email,
+    password,
+    username,
+    role,
+  }: CreateUserReqDto): Promise<User | undefined> {
+    const userAlreadyExists = await this.findOne({
+      where: {
+        email,
+      },
+    });
+
+    if (userAlreadyExists) {
+      throw new UnprocessableEntityException();
+    }
+
+    const user = new User();
+
+    user.email = email;
+    user.password = password;
+    user.username = username;
+    user.role = role;
+
+    return this.userRepository.save(user);
   }
 }

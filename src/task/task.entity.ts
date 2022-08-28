@@ -1,12 +1,12 @@
 import { Base } from '../common/entities/base.entity';
 import {
   Column,
-  CreateDateColumn,
-  DeleteDateColumn,
   Entity,
+  JoinColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
 } from 'typeorm';
+import { User } from '../user/user.entity';
 
 export enum TaskStatus {
   TO_DO = 'To do',
@@ -28,4 +28,11 @@ export class Task extends Base {
 
   @Column({ type: 'enum', enum: TaskStatus })
   status: TaskStatus;
+
+  @ManyToOne((_type) => User)
+  @JoinColumn({ name: 'userId', referencedColumnName: 'id' })
+  user: User;
+
+  @Column({ type: 'int' })
+  userId: string;
 }
