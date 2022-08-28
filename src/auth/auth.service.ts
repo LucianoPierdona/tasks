@@ -4,6 +4,7 @@ import { CreateUserReqDto } from 'src/user/dto/create-user-req.dto';
 import { User } from '../user/user.entity';
 import { UserService } from '../user/user.service';
 import { LoginRespDto } from './dto/login-resp.dto';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AuthService {
@@ -18,9 +19,11 @@ export class AuthService {
         email,
       },
     });
-    if (user && user.password === pass) {
+
+    if (user && (await bcrypt.compare(pass, user.password))) {
       return user;
     }
+
     return null;
   }
 

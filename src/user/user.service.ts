@@ -1,6 +1,7 @@
 import { Injectable, UnprocessableEntityException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { PinoLogger } from 'nestjs-pino';
+import { encryptPassword } from '../common/utils/encrypt-password';
 import { FindOneOptions, Repository } from 'typeorm';
 import { CreateUserReqDto } from './dto/create-user-req.dto';
 import { User } from './user.entity';
@@ -36,7 +37,7 @@ export class UserService {
     const user = new User();
 
     user.email = email;
-    user.password = password;
+    user.password = await encryptPassword(password);
     user.username = username;
     user.role = role;
 
