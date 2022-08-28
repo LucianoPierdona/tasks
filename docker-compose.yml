@@ -1,0 +1,38 @@
+version: '2.4'
+
+services:
+  api:
+    init: true
+    build:
+      context: .
+      target: dev
+    ports:
+      - '3001:3000'
+      - '9229:9229'
+    volumes:
+      - .:/app:cached
+    depends_on:
+      - db
+    links:
+      - 'db'
+  db:
+    init: true
+    container_name: db
+    image: postgres:12
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: tasks
+      POSTGRES_USER: tasks
+      POSTGRES_DB: tasks
+    volumes:
+      - db_data:/var/lib/postgresql/data:cached
+    ports:
+      - '5555:5432'
+    logging:
+      driver: none
+volumes:
+  db_data:
+
+networks:
+  default:
+    name: tasks-network
