@@ -4,7 +4,7 @@ import { CreateUserReqDto } from 'src/user/dto/create-user-req.dto';
 import { User } from '../user/user.entity';
 import { UserService } from '../user/user.service';
 import { LoginRespDto } from './dto/login-resp.dto';
-import * as bcrypt from 'bcrypt';
+import * as bcrypt from 'bcryptjs';
 
 @Injectable()
 export class AuthService {
