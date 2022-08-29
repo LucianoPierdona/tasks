@@ -34,7 +34,7 @@ _Install and run_
    ```sh
    docker-compose build && docker-compose up
    ```
-4. run migrations
+4. run migrations (in case you don't see it in the logs)
    ```sh
    yarn migrate:dev
    ```
