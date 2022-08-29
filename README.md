@@ -34,6 +34,10 @@ _Install and run_
    ```sh
    docker-compose build && docker-compose up
    ```
+4. run migrations
+   ```sh
+   yarn migrate:dev
+   ```
 4. server url
    ```sh
    http://localhost:3001/
