@@ -32,8 +32,8 @@ export class TaskService {
       },
     });
 
-    if (!user) {
-      throw new NotFoundException('User not found');
+    if (!savedUser) {
+      throw new NotFoundException(ErrorMessages.USER_NOT_FOUND);
     }
 
     const task = new Task();
@@ -107,14 +107,20 @@ export class TaskService {
   async get(id: number, user: AuthRespDto): Promise<TaskRespDto> {
     const userQuery = this.mountUserTaskQuery(user);
 
-    Object.assign(userQuery.where, {
-      id,
-    });
+    if (userQuery.where) {
+      Object.assign(userQuery.where, {
+        id,
+      });
+    } else {
+      userQuery.where = {
+        id,
+      };
+    }
 
     const task = await this.taskRepository.findOne(userQuery);
 
     if (!task) {
-      throw new NotFoundException('Task not found');
+      throw new NotFoundException(ErrorMessages.TASK_NOT_FOUND);
     }
 
     return new TaskRespDto(task);
