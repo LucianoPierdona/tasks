@@ -16,7 +16,6 @@ import { AuthRespDto } from '../auth/dto/auth-resp.dto';
 @Injectable()
 export class TaskService {
   constructor(
-    private readonly logger: PinoLogger,
     @InjectRepository(Task)
     private readonly taskRepository: Repository<Task>,
     private readonly userService: UserService,

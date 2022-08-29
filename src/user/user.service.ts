@@ -9,7 +9,6 @@ import { User } from './user.entity';
 @Injectable()
 export class UserService {
   constructor(
-    private readonly logger: PinoLogger,
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
   ) {}
